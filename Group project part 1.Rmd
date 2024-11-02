@@ -1,0 +1,80 @@
+---
+title: "Group project-part 1"
+output: pdf_document
+author: "Emily, David, Daisy, and Jingxin"
+date: "2024-11-01"
+---
+
+# Summary:
+
+## Interests: 
+
+We are a group of students passionate about environmental issues. While exploring datasets from the United Nations, the "Environment" section caught our eye, specifically the data on threatened species. Understanding species loss can offer valuable insights into environmental history, reveal ongoing extinction patterns, and identify specific groups (vertebrates, invertebrates, or plants) that may require more focused conservation efforts. Since ecosystems are highly interconnected, examining trends in species loss may also help us predict future impacts and highlight urgent actions needed to prevent further biodiversity decline.
+
+## Data Set: 
+
+The threatened species dataset from the UN Environment section.
+
+## Question: 
+
+In our initial dataset analysis, we noticed a correlation between the number of species threatened and changes over time. For this project, we aim to explore this further by investigating the question:
+
+### "How has the number of threatened species changed over time?"
+
+```{r}
+library(readr)
+library(dplyr)
+library(corrplot)
+```
+
+Part 1:
+
+-   data info
+
+-   how many unknown data there is
+
+-   clean unknown data
+
+```{r}
+# The first row is a header so we want to skip it
+df <- read_csv("endangered_species.csv", skip = 1)
+# There's 6921 rows and 7 columns  
+head(df)
+```
+
+```{r}
+glimpse(df)
+```
+
+-   So all the variables are locations, year, series (in particular, what type of species it is, vertebrates, invertebrates, or plants), then there's numerical values, footnote, and source of information
+
+```{r}
+# How many NA value there are 
+colSums(is.na(df))
+# What's the percentage
+sapply(df, function(x) mean(is.na(x)) * 100)
+```
+
+```{r}
+# Drop Footnotes
+df <- df %>% select(-Footnotes)
+```
+
+Correlation graph: - This is just a draft graph - trying to see a basic relationship of the variables
+
+```{r}
+
+# select numerical data
+numeric_df <- df %>% select_if(is.numeric)
+
+# calculate the matrix
+cor_matrix <- cor(numeric_df, use = "complete.obs")
+
+# adjust the margins 
+par(mar = c(1, 1, 2, 5)) 
+
+# plot with
+corrplot(cor_matrix, method = "color")
+```
+
+#### What we see is that there seems to be a correlation between "Year" and "Value".
