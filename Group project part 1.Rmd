@@ -78,3 +78,17 @@ corrplot(cor_matrix, method = "color")
 ```
 
 #### What we see is that there seems to be a correlation between "Year" and "Value".
+
+# help clean the species column
+```{r}
+library(tidyverse)
+
+df <- df %>%
+  rename(CountryName = 2) %>%
+  mutate(SpeciesType = unlist(str_extract_all(Series, '(?<=:\\s).*(?=\\s\\()'))) %>%
+  filter(SpeciesType != "Total")
+
+ggplot(df, aes(x = Year, y = Value, fill = SpeciesType)) + 
+  geom_bar(stat = "identity") +
+  geom_point(aes(color = SpeciesType))
+```
