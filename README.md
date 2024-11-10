@@ -19,7 +19,7 @@ In addition to this question, we have further sub-question to dive deeper into t
 
 **Graph 1: bygroup_byyear_species.png**
 
-In this visualization, it answers and shows how many of each type of endangered species over the years to see the change of the number of species over time. We have included "Vertebrate", "Invertebrate", "Plants", and "Total" to have a more finite definition. Each type is represented as a different color line and is labeled as which line on the right. The total number of endangered species is also displayed as a black dashed line in order to provide an overall comparison. This graph uses line plots in order to easily show the increase or decrease of the number of endangered species over time. 
+In this visualization, it answers and shows how many of each type of endangered species over the years to see the change of the number of species over time. We have included "Vertebrate", "Invertebrate", "Plants", and "Total" to have a more comprehensive conclusion. Each type is represented as a different color line and is labeled as which line on the right. The total number of endangered species is also displayed as a black dashed line in order to provide an overall comparison. This graph uses line plots in order to easily show the increase or decrease of the number of endangered species over time. 
 
 **Graph 2:Top 5 Countries_highest total amount.png**
 
