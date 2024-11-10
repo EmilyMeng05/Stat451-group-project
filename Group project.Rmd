@@ -25,6 +25,7 @@ In our initial dataset analysis, we noticed a correlation between the number of 
 library(readr)
 library(dplyr)
 library(corrplot)
+library(tidyverse)
 ```
 
 Part 1:
@@ -81,8 +82,6 @@ corrplot(cor_matrix, method = "color")
 
 # help clean the species column
 ```{r}
-library(tidyverse)
-
 df <- df %>%
   rename(CountryName = 2) %>%
   mutate(SpeciesType = unlist(str_extract_all(Series, '(?<=:\\s).*(?=\\s\\()'))) %>%
@@ -91,4 +90,56 @@ df <- df %>%
 ggplot(df, aes(x = Year, y = Value, fill = SpeciesType)) + 
   geom_bar(stat = "identity") +
   geom_point(aes(color = SpeciesType))
+```
+
+# the top 5 country bar graph
+```{r}
+df_country_total_top <- df %>%
+  # Only getting total
+  filter(SpeciesType == "Total", !is.na(Value)) %>%  
+  group_by(CountryName) %>%
+  summarize(TotalThreatened = sum(Value, na.rm = TRUE)) %>%
+  arrange(desc(TotalThreatened)) %>%
+  # Only keeping top 5
+  slice_head(n = 5)  
+
+ggplot(df_country_total_top, aes(x = fct_reorder(CountryName, TotalThreatened), y = TotalThreatened)) +
+  geom_bar(stat = "identity", fill = "coral") +
+  geom_text(aes(label = TotalThreatened), 
+            position = position_dodge(width = 0.9), 
+            hjust = -0.2,  # Adjust text to the right of the bar
+            color = "black", 
+            size = 3) +
+  labs(title = "Top 5 Countries for having the highest total amount of threatened species",
+       x = "Country",
+       y = "Total Amount Of Threatened Species") +
+  coord_flip() +
+  theme_minimal()
+```
+#Top 5 country trend multi-line graph
+```{r}
+# List of top 5 countries
+top_5_countries <- c("Ecuador", "Madagascar", "United States of America","Indonesia", "Malaysia")
+
+# Filter to not include total and also only within top 5 country
+df_top_5_countries <- df %>%
+  filter(SpeciesType %in% c("Vertebrate", "Invertebrate", "Plants"), 
+         CountryName %in% top_5_countries, 
+         !is.na(Value)) 
+
+# to make sure the legand are lined based on the order of 5 countries
+df_top_5_countries$CountryName <-
+  factor(df_top_5_countries$CountryName,
+        levels = top_5_countries)
+
+ggplot(df_top_5_countries, aes(x = Year, y = Value, color = CountryName, group = CountryName)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Species Type Trends Over Time for Top 5 Countries",
+       x = "Year",
+       y = "Total amount of Threatened species value") +
+  scale_x_continuous(breaks = unique(df_top_5_countries$Year)) +
+  theme_minimal() +
+  theme(legend.title = element_blank(), 
+        legend.position = "right") 
 ```
