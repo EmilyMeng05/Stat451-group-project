@@ -135,7 +135,7 @@ df_top_5_countries$CountryName <-
 ggplot(df_top_5_countries, aes(x = Year, y = Value, color = CountryName, group = CountryName)) +
   geom_line() +
   geom_point() +
-  labs(title = "Species Type Trends Over Time for Top 5 Countries",
+  labs(title = "Threatened species amount Trends Over Time for Top 5 Countries",
        x = "Year",
        y = "Total amount of Threatened species value") +
   scale_x_continuous(breaks = unique(df_top_5_countries$Year)) +
