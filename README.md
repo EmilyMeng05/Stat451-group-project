@@ -16,4 +16,5 @@ In addition to this question, we have further sub-question to dive deeper into t
 "Which country lost the most vertebrates, invertebrates, and plants?"
 
 **How has the number of threatened species changed over time?**
+
 In this visualization, it answers and shows how many of each type of endangered species over the years to see the change of the number of species over time. Each type is represented as a different color line and is labeled as which line on the right. The total number of endangered species is also displayed as a black dashed line in order to provide an overall comparison. This graph uses line plots in order to easily show the increase or decrease of the number of endangered species over time. 
