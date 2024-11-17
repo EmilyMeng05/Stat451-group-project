@@ -6,7 +6,9 @@ patterns, and identify specific groups (vertebrates, invertebrates, or plants) t
 conservation efforts. Since ecosystems are highly interconnected, examining trends in species loss may also
 help us predict future impacts and highlight urgent actions needed to prevent further biodiversity decline.
 
-We chose to analyze the threatened species dataset from the UN 'Environmental' section.
+We chose to analyze the threatened species dataset from the UN 'Environmental' section. :
+https://data.un.org/
+The threatened species csv describes the number of lost species throughout the years for countries all across the globe. It has 4 separate classifications: invertebrates, vertebrates, plants, and total loss.
 
 In our initial dataset analysis, we noticed a correlation between the number of species threatened and changes
 over time. For this project, we aim to explore this further by investigating the question:
