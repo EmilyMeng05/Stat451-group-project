@@ -5,7 +5,6 @@ fluidPage(
   titlePanel("Threatened Species Analysis (Stats 451)"),
   
   sidebarLayout(
-    
     sidebarPanel(
       radioButtons(
         inputId = "viewOption",
@@ -20,17 +19,20 @@ fluidPage(
         selected = "trend"
       ),
       
-      # Add a checkbox for Species Type
-      checkboxGroupInput(
-        inputId = "speciesType", 
-        label = "Filter by Species Type", 
-        choices = c("Total", "Vertebrates", "Invertebrates", "Plants"),
-        selected = c("Total", "Vertebrates", "Invertebrates", "Plants")  # Default to all species types
+      # Conditional Panel for the checker to appear only for the first graph
+      conditionalPanel(
+        condition = "input.viewOption == 'trend'",
+        checkboxGroupInput(
+          inputId = "speciesType", 
+          label = "Filter by Species Type", 
+          choices = c("Total", "Vertebrates", "Invertebrates", "Plants"),
+          selected = c("Total", "Vertebrates", "Invertebrates", "Plants") 
+        )
       )
     ),
     
     mainPanel(
-      h3("Visualization graph"),
+      h3("Visualization"),
       uiOutput("dynamicTitle"),
       plotOutput("selectedGraph") 
     )
