@@ -8,18 +8,27 @@ fluidPage(
   
   sidebarLayout(
     
+   
     sidebarPanel(
-      
-      
-      selectInput("country",
-                  "Select country",
-                  distinct(endangered, endangered$`Region/Country/Area`),
-                  "United States of America"
+      radioButtons(
+        inputId = "viewOption",
+        label = "Choose the view:",
+        choices = list(
+          "Overall Trend for Species Changing" = "trend",
+          "Top 5 Countries with the Highest Total Amount of Threatened Species" = "top5",
+          "Top 5 Countries trend for Species Changing" = "5trend",
+          "Highest Lost of Life" = "lost",
+          "Average Number Across the World" = "average"
+        ),
+        selected = "trend"
       )
-      
     ),
     
-    mainPanel()
+    mainPanel(
+      h3("Dynamic Visualization"),
+      uiOutput("dynamicTitle"),
+      plotOutput("selectedGraph") 
+    )
     
   )
 )
