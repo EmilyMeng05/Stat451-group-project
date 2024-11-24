@@ -71,6 +71,18 @@ body <- dashboardBody(
   tabItems(
       
     tabItem( tabName = "genover",
+      
+      conditionalPanel(
+        condition = 'input.viewOption == "lost"',
+        
+        fluidRow(
+          infoBoxOutput(width = 6,
+                        outputId = "infoYear"),
+          infoBoxOutput(width = 6,
+                        "infoAmt")
+        )
+      ),       
+             
       fluidRow(
         box(width=12,
             plotOutput("selectedGraph"))
