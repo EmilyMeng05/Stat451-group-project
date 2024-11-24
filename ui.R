@@ -38,7 +38,7 @@ sidebar <- dashboardSidebar(
         choices = list(
           "Overall Trend for Species Changing" = "trend",
           "Top 5 Countries with the Highest Total Amount of Threatened Species" = "top5",
-          "Top 5 Countries trend for Species Changing" = "5trend",
+          "Countries With the Most Threatened Species (Top 5)" = "5trend",
           "Highest Lost of Life Graph" = "lost",
           "Average Number Across the World" = "average"
         ),
