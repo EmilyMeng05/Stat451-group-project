@@ -1,6 +1,16 @@
 library(shiny)
 library(shinydashboard)
 
+df <- read_csv("UN_threatened_species.csv", skip=1)
+
+df <- df %>%
+  rename(CountryName = 2) %>%
+  mutate(SpeciesType = 
+           unlist(str_extract_all(Series, '(?<=:\\s).*(?=\\s\\()')))
+df$CountryName <- iconv(df$CountryName, to = "UTF-8", sub = "")
+countries <- unique(df$CountryName)
+
+
 header <- dashboardHeader(title = "Threatened Species Analysis (Stat 451)")
 
 sidebar <- dashboardSidebar(
@@ -11,7 +21,11 @@ sidebar <- dashboardSidebar(
              tabName = "genover",
              icon = icon("house", lib="font-awesome")
     
-    )
+    ),
+    
+    menuItem("By Country",
+             tabName = "country",
+             icon = icon("globe"))
   
   
   ),
@@ -30,14 +44,23 @@ sidebar <- dashboardSidebar(
         ),
         selected = "trend"
       ),
+    conditionalPanel(
+      condition = "input.viewOption == 'trend'",
+      checkboxGroupInput(
+        inputId = "speciesType", 
+        label = "Filter by Species Type", 
+        choices = c("Total", "Vertebrates", "Invertebrates", "Plants"),
+        selected = c("Total", "Vertebrates", "Invertebrates", "Plants") 
+      )
+    )
   ),
+  
   conditionalPanel(
-    condition = "input.viewOption == 'trend'",
-    checkboxGroupInput(
-      inputId = "speciesType", 
-      label = "Filter by Species Type", 
-      choices = c("Total", "Vertebrates", "Invertebrates", "Plants"),
-      selected = c("Total", "Vertebrates", "Invertebrates", "Plants") 
+    condition = 'input.sidebarid == "country"',
+    selectInput(
+      inputId = "countryOption",
+      label = "Country",
+      choices = countries
     )
   )
   
@@ -53,7 +76,16 @@ body <- dashboardBody(
             plotOutput("selectedGraph"))
       )
       
+    ),
+    tabItem(
+      tabName = "country",
+      fluidRow(
+        box(width = 12,
+            plotOutput("countryPlot"))
+      )
+      
     )
+    
   )
   
 )
