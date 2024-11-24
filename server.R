@@ -7,9 +7,9 @@ library(corrplot)
 library(tidyverse)
 library(stringr)
 
-shinyServer(function(input, output) {
-  # from the old project
-  # rename the dataset
+function(input, output, session) {
+  
+  ## load dataset
   df <- read_csv("UN_threatened_species.csv", skip=1)
   
   df <- df %>%
@@ -34,7 +34,8 @@ shinyServer(function(input, output) {
         theme_minimal() +
         theme(legend.title = element_blank()) + 
         scale_y_continuous(limits = c(0, 60000), breaks = seq(0, 40000, by = 10000)) +  # Zoom in on y-axis
-        theme(legend.position = "right") 
+        theme(legend.position = "right")
+      
       
     } else if (input$viewOption == "top5") {
       # get the top 5
@@ -90,4 +91,4 @@ shinyServer(function(input, output) {
     }
     
   })
-})
+}
