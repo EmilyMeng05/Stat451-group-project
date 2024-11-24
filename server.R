@@ -16,6 +16,7 @@ function(input, output, session) {
     rename(CountryName = 2) %>%
     mutate(SpeciesType = 
              unlist(str_extract_all(Series, '(?<=:\\s).*(?=\\s\\()')))
+  df$CountryName <- iconv(df$CountryName, to = "UTF-8", sub = "")
   
   output$selectedGraph <- renderPlot({
     # first graph
@@ -89,6 +90,18 @@ function(input, output, session) {
     } else if (input$viewOption == "average") {
       # code needed
     }
+    
+  })
+  
+  output$countryPlot <- renderPlot({
+    
+    df %>% 
+      filter(CountryName == input$countryOption) %>% 
+      ggplot(aes(x=Year, y=Value, group=Series, color=SpeciesType)) +
+      geom_line() +
+      labs(title = "Lost of life by Country and Type",
+           y = "Count") +
+      scale_fill_discrete(breaks=c('Total', 'Invertebrates', 'Vertebrates', 'Plants'))
     
   })
 }
