@@ -1,11 +1,23 @@
 library(shiny)
+library(shinydashboard)
 
-fluidPage(
+header <- dashboardHeader(title = "Threatened Species Analysis (Stat 451)")
+
+sidebar <- dashboardSidebar(
   
-  titlePanel("Threatened Species Analysis (Stats 451)"),
+  sidebarMenu( id = "sidebarid",
+    
+    menuItem("General Overview",
+             tabName = "genover",
+             icon = icon("house", lib="font-awesome")
+    
+    )
   
-  sidebarLayout(
-    sidebarPanel(
+  
+  ),
+  
+  conditionalPanel(
+    'input.sidebarid == "genover"',
       radioButtons(
         inputId = "viewOption",
         label = "What question are you looking for?:",
@@ -18,23 +30,32 @@ fluidPage(
         ),
         selected = "trend"
       ),
-      
-      # Conditional Panel for the checker to appear only for the first graph
-      conditionalPanel(
-        condition = "input.viewOption == 'trend'",
-        checkboxGroupInput(
-          inputId = "speciesType", 
-          label = "Filter by Species Type", 
-          choices = c("Total", "Vertebrates", "Invertebrates", "Plants"),
-          selected = c("Total", "Vertebrates", "Invertebrates", "Plants") 
-        )
-      )
-    ),
-    
-    mainPanel(
-      h3("Visualization"),
-      uiOutput("dynamicTitle"),
-      plotOutput("selectedGraph") 
+  ),
+  conditionalPanel(
+    condition = "input.viewOption == 'trend'",
+    checkboxGroupInput(
+      inputId = "speciesType", 
+      label = "Filter by Species Type", 
+      choices = c("Total", "Vertebrates", "Invertebrates", "Plants"),
+      selected = c("Total", "Vertebrates", "Invertebrates", "Plants") 
     )
   )
+  
 )
+
+body <- dashboardBody(
+  
+  tabItems(
+      
+    tabItem( tabName = "genover",
+      fluidRow(
+        box(width=12,
+            plotOutput("selectedGraph"))
+      )
+      
+    )
+  )
+  
+)
+  
+dashboardPage(header, sidebar, body)
