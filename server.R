@@ -86,7 +86,14 @@ function(input, output, session) {
         theme(legend.title = element_blank(), 
               legend.position = "right") 
     } else if (input$viewOption == "lost") {
-      # code needed
+      highest_loss <- df %>% 
+        group_by(Year) %>% 
+        mutate(total_loss = sum(Value))
+      
+      highest_loss %>% 
+        ggplot(aes(x=Year, y=total_loss)) +
+        geom_line()
+      
     } else if (input$viewOption == "average") {
       # code needed
     }
@@ -101,7 +108,27 @@ function(input, output, session) {
       geom_line() +
       labs(title = "Lost of life by Country and Type",
            y = "Count") +
-      scale_fill_discrete(breaks=c('Total', 'Invertebrates', 'Vertebrates', 'Plants'))
+      scale_fill_discrete(breaks=c('Total', 'Invertebrates', 'Vertebrates', 'Plants')) +
+      theme_bw()
     
+  })
+  
+  output$infoYear = renderInfoBox({
+    
+    infoBox(
+      "Year",
+      max(highest_loss$Year),
+      icon = icon("calendar"),
+      color = "light-blue"
+    )
+  })
+  output$infoAmt = renderInfoBox({
+    
+    infoBox(
+      "Total Loss of Life",
+      max(highest_loss$total_loss),
+      icon = icon("book-skull", lib = "font-awesome"),
+      color = "red"
+    )
   })
 }
