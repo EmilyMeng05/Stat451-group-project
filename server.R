@@ -10,6 +10,8 @@ library(stringr)
 shinyServer(function(input, output) {
   # from the old project
   # rename the dataset
+  df <- read_csv("UN_threatened_species.csv", skip=1)
+  
   df <- df %>%
     rename(CountryName = 2) %>%
     mutate(SpeciesType = 
