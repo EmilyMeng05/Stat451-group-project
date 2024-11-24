@@ -49,7 +49,7 @@ function(input, output, session) {
       
       # plot the graph
       ggplot(df_country_total_top, aes(x = fct_reorder(CountryName, TotalThreatened), y = TotalThreatened)) +
-        geom_bar(stat = "identity", fill = "coral") +
+        geom_bar(stat = "identity", fill = "cornflowerblue") +
         geom_text(aes(label = TotalThreatened),
                   position = position_dodge(width = 0.9),
                   hjust = -0.2,
@@ -78,7 +78,7 @@ function(input, output, session) {
       ggplot(df_top_5_countries, aes(x = Year, y = Value, color = CountryName, group = CountryName)) +
         geom_line() +
         geom_point() +
-        labs(title = "Threatened species amount Trends Over Time for Top 5 Countries",
+        labs(title = "Number of Threatened Species Over Time (Top 5 countries)",
              x = "Year",
              y = "Total amount of Threatened species value") +
         scale_x_continuous(breaks = unique(df_top_5_countries$Year)) +
@@ -92,10 +92,24 @@ function(input, output, session) {
       
       highest_loss %>% 
         ggplot(aes(x=Year, y=total_loss)) +
-        geom_line()
+        geom_line(colour = "cornflowerblue") +
+        labs(title = "Total loss of life throughout the years",
+             x = "Count",
+             y = "Year") +
+        theme_minimal()
       
     } else if (input$viewOption == "average") {
-      # code needed
+      average_df <- df %>% 
+        group_by(SpeciesType) %>% 
+        group_by(Year) %>% 
+        mutate(average = mean(Value))
+      
+      average_df %>% 
+        ggplot(aes(x=Year, y = average)) +
+        geom_line(colour = "cornflowerblue") +
+        labs(title = "Average loss of life throughout the years",
+             y = "Count") +
+        theme_minimal()
     }
     
   })
@@ -109,7 +123,7 @@ function(input, output, session) {
       labs(title = "Lost of life by Country and Type",
            y = "Count") +
       scale_fill_discrete(breaks=c('Total', 'Invertebrates', 'Vertebrates', 'Plants')) +
-      theme_bw()
+      theme_minimal()
     
   })
   
