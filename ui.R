@@ -9,7 +9,7 @@ df <- df %>%
            unlist(str_extract_all(Series, '(?<=:\\s).*(?=\\s\\()')))
 df$CountryName <- iconv(df$CountryName, to = "UTF-8", sub = "")
 countries <- unique(df$CountryName)
-
+years <- unique(df$Year)
 
 header <- dashboardHeader(title = "Threatened Species Analysis (Stat 451)")
 
@@ -61,6 +61,11 @@ sidebar <- dashboardSidebar(
       inputId = "countryOption",
       label = "Country",
       choices = countries
+    ),
+    selectInput(
+      inputId = "yearOption",
+      label = "Year",
+      choices = years
     )
   )
   
@@ -91,6 +96,13 @@ body <- dashboardBody(
     ),
     tabItem(
       tabName = "country",
+      
+      fluidRow(
+        infoBoxOutput(width = 4, outputId = "vertInfo"),
+        infoBoxOutput(width = 4, outputId = "invertInfo"),
+        infoBoxOutput(width = 4, outputId = "plantInfo")
+      ),
+      
       fluidRow(
         box(width = 12,
             plotOutput("countryPlot"))
