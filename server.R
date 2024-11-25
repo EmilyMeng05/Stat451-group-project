@@ -145,4 +145,50 @@ function(input, output, session) {
       color = "red"
     )
   })
+  
+  
+  output$vertInfo = renderInfoBox({
+    
+    selected <- df %>% 
+      filter(CountryName == input$countryOption) %>% 
+      filter(SpeciesType == "Vertebrates" & Year == input$yearOption) %>% 
+      select(Value)
+      
+    infoBox(
+      "Vertebrates Lost",
+      selected,
+      icon = icon("dog"),
+      color = "purple"
+    )
+  })
+  
+  output$invertInfo = renderInfoBox({
+    
+    selected <- df %>% 
+      filter(CountryName == input$countryOption) %>% 
+      filter(SpeciesType == "Invertebrates" & Year == input$yearOption) %>% 
+      select(Value)
+    
+    infoBox(
+      "Invertebrates Lost",
+      selected,
+      icon = icon("mosquito"),
+      color = "orange"
+    )
+  })
+  
+  output$plantInfo = renderInfoBox({
+    
+    selected <- df %>% 
+      filter(CountryName == input$countryOption) %>% 
+      filter(SpeciesType == "Plants" & Year == input$yearOption) %>% 
+      select(Value)
+    
+    infoBox(
+      "Plants Lost",
+      selected,
+      icon = icon("mosquito"),
+      color = "green"
+    )
+  })
 }
